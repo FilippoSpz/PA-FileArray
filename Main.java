@@ -3,11 +3,6 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.out.println("Uso: java Main <filePath> [comandi]");
-            return;
-        }
-
         String filePath = args[0];
         int n = new Random().nextInt((1 << 5) - 1) + 1; // n ∼ U(1,…,2^5)
 
@@ -24,7 +19,7 @@ public class Main {
                         fileArray.printArrayFormatted();
                         break;
                     default:
-                        System.out.println("Comando non riconosciuto: " + command);
+                        System.err.println("Comando non riconosciuto: " + command);
                 }
             }
         } catch (IOException e) {
