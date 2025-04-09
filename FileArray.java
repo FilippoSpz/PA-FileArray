@@ -23,19 +23,13 @@ public class FileArray {
     public void printArrayFormatted() throws IOException {
         try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
             int numElements = 0;
-            try (dis) {
-                while (dis.available() > 0) {
-                    dis.readInt(); // Legge un intero
-                    numElements++; // Incrementa il conteggio
-                }
-            }
             int maxValue = 0;
 
-            // Trova il valore massimo per calcolare la larghezza della colonna
-            int[] values = new int[numElements];
-            for (int i = 0; i < numElements; i++) {
-                values[i] = dis.readInt();
-                maxValue = Math.max(maxValue, values[i]);
+            // Conta il numero di elementi e trova il valore massimo
+            while (dis.available() > 0) {
+                int value = dis.readInt();
+                maxValue = Math.max(maxValue, value);
+                numElements++;
             }
 
             // Calcola la larghezza della colonna
@@ -43,12 +37,14 @@ public class FileArray {
             int indexWidth = String.valueOf(numElements - 1).length();
 
             // Stampa i valori con formattazione
-            for (int i = 0; i < numElements; i++) {
-                if (i % 5 == 0) {
-                    if (i > 0) System.out.println();
-                    System.out.printf("[%0" + indexWidth + "d-%0" + indexWidth + "d] ", i, Math.min(i + 4, numElements - 1));
+            try (DataInputStream dis2 = new DataInputStream(new FileInputStream(file))) {
+                for (int i = 0; i < numElements; i++) {
+                    if (i % 5 == 0) {
+                        if (i > 0) System.out.println();
+                        System.out.printf("[%0" + indexWidth + "d-%0" + indexWidth + "d] ", i, Math.min(i + 4, numElements - 1));
+                    }
+                    System.out.printf("%" + columnWidth + "d ", dis2.readInt());
                 }
-                System.out.printf("%" + columnWidth + "d ", values[i]);
             }
             System.out.println();
         }
