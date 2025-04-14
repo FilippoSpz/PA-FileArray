@@ -21,12 +21,12 @@ public class FileArray {
     }
 
     public void printArrayFormatted() throws IOException {
-        try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
+        try (DataInputStream input = new DataInputStream(new FileInputStream(file))) {
             int numElements = 0;
             int maxValue = 0;
 
-            while (dis.available() > 0) {
-                int value = dis.readInt();
+            while (input.available() > 0) {
+                int value = input.readInt();
                 maxValue = Math.max(maxValue, value);
                 numElements++;
             }
