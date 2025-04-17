@@ -17,7 +17,7 @@ public class Main {
                         break;
                     case 'p':
                         fileArray.printArrayFormatted();
-                        System.out.println("-----------------");
+                        System.out.println("----------------------------------");
                         break;
                     default:
                         System.err.println("Comando non riconosciuto: " + command);
