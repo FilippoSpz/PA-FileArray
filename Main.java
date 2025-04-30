@@ -4,7 +4,7 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) {
         String filePath = args[0];
-        int n = new Random().nextInt((1 << 5) - 1) + 1; // n ∼ U(1,…,2^5)
+        int n = new Random().nextInt(32);
 
         try {
             FileArray fileArray = new FileArray(filePath, n);
@@ -16,8 +16,7 @@ public class Main {
                         fileArray.incrementAll();
                         break;
                     case 'p':
-                        fileArray.printArrayFormatted();
-                        System.out.println("----------------------------------");
+                        fileArray.print();
                         break;
                     default:
                         System.err.println("Comando non riconosciuto: " + command);

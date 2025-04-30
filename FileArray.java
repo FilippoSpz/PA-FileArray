@@ -15,12 +15,12 @@ public class FileArray {
         try (DataOutputStream output = new DataOutputStream(new FileOutputStream(file))) {
             Random random = new Random();
             for (int i = 0; i < n; i++) {
-                output.writeInt(random.nextInt(1 << 10));
+                output.writeInt(random.nextInt(1024));
             }
         }
     }
 
-    public void printArrayFormatted() throws IOException {
+    public void print() throws IOException {
         try (DataInputStream input = new DataInputStream(new FileInputStream(file))) {
             int numElements = 0;
             int maxValue = 0;
@@ -31,16 +31,18 @@ public class FileArray {
                 numElements++;
             }
 
-            int column = Math.max(2, String.valueOf(maxValue).length());
+            int space = Math.max(2, String.valueOf(maxValue).length());
             int index = String.valueOf(numElements - 1).length();
 
             try (DataInputStream input2 = new DataInputStream(new FileInputStream(file))) {
                 for (int i = 0; i < numElements; i++) {
                     if (i % 5 == 0) {
-                        if (i > 0) System.out.println();
+                        if (i > 0) {
+                            System.out.println();
+                        }
                         System.out.printf("[%0" + index + "d-%0" + index + "d] ", i, Math.min(i + 4, numElements - 1));
                     }
-                    System.out.printf("%" + column + "d ", input2.readInt());
+                    System.out.printf("%" + space + "d ", input2.readInt());
                 }
             }
             System.out.println();
