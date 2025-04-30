@@ -50,15 +50,23 @@ public class FileArray {
     }
 
     public void incrementAll() throws IOException {
-        File temp = new File(file.getAbsolutePath() + ".tmp");
-        try (DataInputStream input = new DataInputStream(new FileInputStream(file));
-             DataOutputStream output = new DataOutputStream(new FileOutputStream(temp))) {
-            while (input.available() > 0) {
-                output.writeInt(input.readInt() + 1);
+        int[] values;
+        try (DataInputStream input = new DataInputStream(new FileInputStream(file))) {
+            int numElements = (int) (file.length() / 4);
+            values = new int[numElements];
+            for (int i = 0; i < numElements; i++) {
+                values[i] = input.readInt();
             }
         }
-        if (!file.delete() || !temp.renameTo(file)) {
-            throw new IOException("file error");
+
+        for (int i = 0; i < values.length; i++) {
+            values[i]++;
+        }
+
+        try (DataOutputStream output = new DataOutputStream(new FileOutputStream(file))) {
+            for (int value : values) {
+                output.writeInt(value);
+            }
         }
     }
 }
