@@ -75,13 +75,6 @@ The `FileArray` class handles all file-related operations:
 
 ---
 
-## Limitations
-
-- The program assumes that the file path provided is valid and writable.
-- The array size is limited to a maximum of 32 elements.
-
----
-
 ## License
 
 This project is intended for educational purposes only and is not meant for commercial use.
