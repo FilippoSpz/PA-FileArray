@@ -12,58 +12,61 @@ public class FileArray {
     }
 
     private void createRandomArray(int n) throws IOException {
-        try (DataOutputStream output = new DataOutputStream(new FileOutputStream(file))) {
-            Random random = new Random();
-            for (int i = 0; i < n; i++) {
-                output.writeInt(random.nextInt(1024));
-            }
+        int[] values = new int[n];
+        Random random = new Random();
+        for (int i = 0; i < n; i++) {
+            values[i] = random.nextInt(1024);
         }
+        write(values);
     }
 
     public void print() throws IOException {
-        DataInputStream input = new DataInputStream(new FileInputStream(file));
-        int numElements = 0;
+        int[] values = read();
         int maxValue = 0;
 
-        while (input.available() > 0) {
-            int value = input.readInt();
+        for (int value : values) {
             maxValue = Math.max(maxValue, value);
-            numElements++;
         }
 
         int space = Math.max(2, String.valueOf(maxValue).length());
-        int index = String.valueOf(numElements - 1).length();
+        int index = String.valueOf(values.length - 1).length();
 
-        DataInputStream input2 = new DataInputStream(new FileInputStream(file));
-        for (int i = 0; i < numElements; i++) {
+        for (int i = 0; i < values.length; i++) {
             if (i % 5 == 0) {
                 if (i > 0) {
                     System.out.println();
                 }
-                System.out.printf("[%0" + index + "d-%0" + index + "d] ", i, Math.min(i + 4, numElements - 1));
+                System.out.printf("[%0" + index + "d-%0" + index + "d] ", i, Math.min(i + 4, values.length - 1));
             }
-            System.out.printf("%" + space + "d ", input2.readInt());
+            System.out.printf("%" + space + "d ", values[i]);
         }
         System.out.println();
-
     }
 
     public void incrementAll() throws IOException {
-        int[] values;
-        DataInputStream input = new DataInputStream(new FileInputStream(file));
-        int numElements = (int) (file.length() / 4);
-        values = new int[numElements];
-        for (int i = 0; i < numElements; i++) {
-            values[i] = input.readInt();
-        }
-
+        int[] values = read();
         for (int i = 0; i < values.length; i++) {
             values[i]++;
         }
+        write(values);
+    }
 
-        DataOutputStream output = new DataOutputStream(new FileOutputStream(file));
-        for (int value : values) {
-            output.writeInt(value);
+    private int[] read() throws IOException {
+        try (DataInputStream input = new DataInputStream(new FileInputStream(file))) {
+            int numElements = (int) (file.length() / 4);
+            int[] values = new int[numElements];
+            for (int i = 0; i < numElements; i++) {
+                values[i] = input.readInt();
+            }
+            return values;
+        }
+    }
+
+    private void write(int[] values) throws IOException {
+        try (DataOutputStream output = new DataOutputStream(new FileOutputStream(file))) {
+            for (int value : values) {
+                output.writeInt(value);
+            }
         }
     }
 }
