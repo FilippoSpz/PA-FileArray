@@ -3,11 +3,6 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.err.println("Usage: java Main <filePath> [commands]");
-            return;
-        }
-
         String filePath = args[0];
         int n = new Random().nextInt(32);
 
