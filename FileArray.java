@@ -72,12 +72,10 @@ public class FileArray {
     }
 
     protected int[] read() throws IOException {
-        DataInputStream input = new DataInputStream(new FileInputStream(file));
-        return readAndClose(input);
+        return readAndClose(new DataInputStream(new FileInputStream(file)));
     }
 
     protected void write(int[] values) throws IOException {
-        DataOutputStream output = new DataOutputStream(new FileOutputStream(file));
-        writeAndClose(output, values);
+        writeAndClose(new DataOutputStream(new FileOutputStream(file)), values);
     }
 }
