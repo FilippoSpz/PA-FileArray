@@ -55,22 +55,29 @@ public class FileArray {
         write(values);
     }
 
-    protected int[] read() throws IOException {
-        try (DataInputStream input = new DataInputStream(new FileInputStream(file))) {
-            int numElements = (int) (file.length() / 4);
-            int[] values = new int[numElements];
-            for (int i = 0; i < numElements; i++) {
-                values[i] = input.readInt();
-            }
-            return values;
+    protected int[] readAndClose(DataInputStream input) throws IOException {
+        int numElements = (int) (file.length() / 4);
+        int[] values = new int[numElements];
+        for (int i = 0; i < numElements; i++) {
+            values[i] = input.readInt();
         }
+        return values;
+    }
+
+    protected void writeAndClose(DataOutputStream output, int[] values) throws IOException {
+        for (int value : values) {
+            output.writeInt(value);
+        }
+        output.close();
+    }
+
+    protected int[] read() throws IOException {
+        DataInputStream input = new DataInputStream(new FileInputStream(file));
+        return readAndClose(input);
     }
 
     protected void write(int[] values) throws IOException {
-        try (DataOutputStream output = new DataOutputStream(new FileOutputStream(file))) {
-            for (int value : values) {
-                output.writeInt(value);
-            }
-        }
+        DataOutputStream output = new DataOutputStream(new FileOutputStream(file));
+        writeAndClose(output, values);
     }
 }

@@ -10,22 +10,13 @@ public class GZIPFileArray extends FileArray {
 
     protected int[] read() throws IOException {
         File file = getFile();
-        try (DataInputStream input = new DataInputStream(new GZIPInputStream(new FileInputStream(file)))) {
-            int numElements = (int) (file.length() / 4);
-            int[] values = new int[numElements];
-            for (int i = 0; i < numElements; i++) {
-                values[i] = input.readInt();
-            }
-            return values;
-        }
+        DataInputStream input = new DataInputStream(new GZIPInputStream(new FileInputStream(file)));
+        return readAndClose(input);
     }
 
     protected void write(int[] values) throws IOException {
         File file = getFile();
-        try (DataOutputStream output = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)))) {
-            for (int value : values) {
-                output.writeInt(value);
-            }
-        }
+        DataOutputStream output = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
+        writeAndClose(output, values);
     }
 }
