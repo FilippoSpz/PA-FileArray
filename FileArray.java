@@ -11,6 +11,10 @@ public class FileArray {
         }
     }
 
+    protected File getFile() {
+        return file;
+    }
+
     private void createRandomArray(int n) throws IOException {
         int[] values = new int[n];
         Random random = new Random();
@@ -51,7 +55,7 @@ public class FileArray {
         write(values);
     }
 
-    private int[] read() throws IOException {
+    protected int[] read() throws IOException {
         try (DataInputStream input = new DataInputStream(new FileInputStream(file))) {
             int numElements = (int) (file.length() / 4);
             int[] values = new int[numElements];
@@ -62,7 +66,7 @@ public class FileArray {
         }
     }
 
-    private void write(int[] values) throws IOException {
+    protected void write(int[] values) throws IOException {
         try (DataOutputStream output = new DataOutputStream(new FileOutputStream(file))) {
             for (int value : values) {
                 output.writeInt(value);
