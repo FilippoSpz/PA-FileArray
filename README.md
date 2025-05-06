@@ -12,7 +12,7 @@ array, and display the array in a formatted manner. The application is composed 
 
 ---
 
-## Features
+## Features (FileArray)
 
 1. **Random Array Creation**:
     - Generates a binary file containing an array of random integers.
@@ -53,6 +53,39 @@ The `FileArray` class handles all file-related operations:
 
 - If the file path is invalid or inaccessible, the program will display an error message.
 - If an unrecognized command is provided, the program will print: unrecognized command.
+
+---
+
+### `GZIPFileArray` Class
+
+The `GZIPFileArray` class extends the `FileArray` class to handle files compressed in GZIP format.
+
+---
+
+## Features (GZIPFileArray)
+1. **Reading Compressed Files**:
+   - Overrides the `read` method to read integer arrays from GZIP-compressed files using `GZIPInputStream`.
+
+2. **Writing Compressed Files**:
+   - Overrides the `write` method to write integer arrays to GZIP-compressed files using `GZIPOutputStream`.
+
+---
+
+## Differences from `FileArray`:
+- Uses compressed streams (`GZIPInputStream` and `GZIPOutputStream`) for reading and writing data.
+- Maintains the same interface and behavior as the base class, with added support for compression.
+
+---
+
+## Usage:
+The `GZIPFileArray` class is ideal for reducing the storage space required for binary files while preserving the ability to read and write integer arrays transparently.
+
+---
+
+## Example:
+      GZIPFileArray gzipFileArray = new GZIPFileArray("example.zip", 10);
+      gzipFileArray.incrementAll();
+      gzipFileArray.print();
 
 ---
 
